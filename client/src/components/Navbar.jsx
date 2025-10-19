@@ -1,16 +1,22 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 import { Search, ShoppingCart, Menu, X } from "lucide-react";
+import { useAppContext } from "../context/AppContext";
 
 const navLinks = [
   { name: "Home", path: "/" },
   { name: "Catalog", path: "/catalog" },
-  { name: "Shop", path: "/shop" },
   { name: "Contact", path: "/contact" },
 ];
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const { user, setUser, setShowUserLogin, navigate } = useAppContext();
+
+  const logout = async () => {
+    setUser(null);
+    navigate("/");
+  }
 
   return (
     <header className="flex items-center relative shadow-xs justify-between">
@@ -25,10 +31,20 @@ const Navbar = () => {
         </div>
         <nav className="hidden md:flex space-x-8 text-[#9F9F9F]">
           {navLinks.map(({ name, path }) => (
-            <NavLink className='hover:underline transition-all duration-500 ease-in' key={name} to={path}>
+            <NavLink
+              className="hover:underline hover:text-black transition-all duration-100 ease-in"
+              key={name}
+              to={path}
+            >
               {name}
             </NavLink>
           ))}
+
+          {user && (
+            <NavLink key={orders} to="/orders">
+              My Orders
+            </NavLink>
+          )}
         </nav>
       </div>
 
@@ -41,13 +57,28 @@ const Navbar = () => {
             className="pl-10 py-1 w-full border text-sm rounded-3xl border-[#9F9F9F] focus:outline-none"
           />
         </div>
-        <div className="h-10 w-10 relative hover:bg-[#d18f01] transition-all cursor-pointer duration-200 ease-in-out rounded-full bg-[#e59f06]">
+        <div onClick={() => navigate("/cart")} className="h-10 w-10 relative hover:bg-[#d18f01] transition-all cursor-pointer duration-200 ease-in-out rounded-full bg-[#e59f06]">
           <ShoppingCart className="absolute transform -translate-y-1/2 top-1/2 h-5 left-2 text-white" />
+          <div className="h-5 w-5 bg-red-500 absolute -right-2 text-sm -top-2 text-center flex justify-center items-center text-white rounded-full">3</div>
         </div>
         <div>
-          <button className="bg-[#2B6E4E] hover:bg-[#28543f] transition-all cursor-pointer duration-200 ease-in-out px-5 py-2 text-sm text-white rounded-xl">
-            Sign Up
-          </button>
+          {!user ? (
+            <button
+              onClick={() => {
+                setOpen(false);
+                setShowUserLogin(true);
+              }}
+              className="bg-[#2B6E4E] hover:bg-[#1b5c3d] transition-all duration-200 ease-in cursor-pointer px-8 py-2 text-sm text-white rounded-xl"
+            >
+              Login
+            </button>
+          ) : (
+            <button
+            onClick={logout}
+            className="bg-[#2B6E4E] hover:bg-[#1b5c3d] transition-all duration-200 ease-in cursor-pointer px-8 py-2 text-sm text-white rounded-xl">
+              Logout
+            </button>
+          )}
         </div>
       </div>
 
@@ -68,6 +99,12 @@ const Navbar = () => {
                 {name}
               </NavLink>
             ))}
+
+            {user && (
+              <NavLink key={orders} to="/orders" onClick={() => setOpen(false)}>
+                My Orders
+              </NavLink>
+            )}
           </nav>
 
           <div className="flex flex-col-reverse items-center gap-4 pt-2">
@@ -85,11 +122,26 @@ const Navbar = () => {
                 <ShoppingCart className="absolute transform -translate-y-1/2 top-1/2 h-5 left-2 text-[#e59f06]" />
               </button>
 
-              <button className="bg-[#2B6E4E] px-5 py-2 text-sm text-white rounded-xl">
-                Sign Up
-              </button>
+              {!user ? (
+                <button
+                  onClick={() => {setOpen(false);
+                    setShowUserLogin(true);
+                  }}
+                  className="bg-[#2B6E4E] px-5 py-2 hover:bg-[#1b5c3d] transition-all duration-200 ease-in cursor-pointer text-sm text-white rounded-xl"
+                >
+                  Login
+                </button>
+              ) : (
+                <button
+                  onClick={() => {setOpen(false);
+                    navigate("/")
+                  }}
+                  className="bg-[#2B6E4E] px-5 py-2 hover:bg-[#1b5c3d] transition-all duration-200 ease-in cursor-pointer text-sm text-white rounded-xl"
+                >
+                  Logout
+                </button>
+              )}
             </div>
-            
           </div>
         </div>
       )}
