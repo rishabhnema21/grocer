@@ -19,7 +19,7 @@ const Navbar = () => {
   }
 
   return (
-    <header className="flex items-center relative shadow-xs justify-between">
+    <header className="flex items-center relative shadow-xs justify-between z-50">
       <div className="flex items-center gap-14 justify-between">
         {/* Logo */}
         <div>
