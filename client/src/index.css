@@ -13,3 +13,27 @@
     --color-secondary: #2B6E4E;
 
 }
+
+@layer utilities {
+  .styled-list {
+    @apply mt-4 leading-9 font-medium text-gray-600 space-y-2;
+  }
+
+  .styled-list li {
+    @apply relative pl-6 transition-colors duration-300 ease-in-out;
+  }
+
+  .styled-list li::before {
+    content: "•"; /* custom bullet */
+    @apply absolute left-0 top-0 text-green-500 text-xl transition-all duration-300 ease-in-out;
+    line-height: 2.25rem; /* aligns bullet vertically */
+  }
+
+  .styled-list li:hover {
+    @apply text-green-600;
+  }
+
+  .styled-list li:hover::before {
+    @apply text-green-600 scale-110; /* optional: makes the bullet animate slightly */
+  }
+}
