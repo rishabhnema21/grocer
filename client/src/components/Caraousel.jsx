@@ -10,8 +10,8 @@ export default function Caraousel({ children }) {
       animationDuration: 600,
       gap: 20,
       breakpoints: {
-        1024: { perView: 2 },
-        640: { perView: 1 },
+        1024: { perView: 3, gap: 16 },
+        640: { perView: 2, gap:5 },
       },
     }).mount();
 

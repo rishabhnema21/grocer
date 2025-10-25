@@ -3,6 +3,7 @@ import Hero from '../components/Hero'
 import Categories from '../components/Categories'
 import Showcase from '../components/Showcase'
 import OurItems from '../components/OurItems'
+import Newsletter from '../components/Newsletter'
 
 const Home = () => {
   return (
@@ -11,6 +12,7 @@ const Home = () => {
         <Categories />
         <Showcase />
         <OurItems />
+        <Newsletter />
     </div>
   )
 }
