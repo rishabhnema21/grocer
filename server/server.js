@@ -3,6 +3,7 @@ const app = express();
 const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const userRoutes = require("./routes/user.route.js");
 const connectDB = require("./configs/db.js");
 dotenv.config();
 
@@ -18,6 +19,8 @@ app.use(cors({origin: allowedOrigins, credentials: true}));
 app.get("/", (req, res) => {
     res.send("app is running");
 })
+
+app.use("/api/user", userRoutes);
 
 app.listen(PORT, () => {
     console.log("app is listening to the port 8080");
