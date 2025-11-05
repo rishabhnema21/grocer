@@ -4,6 +4,7 @@ const dotenv = require("dotenv");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const userRoutes = require("./routes/user.route.js");
+const sellerRoutes = require("./routes/seller.route.js");
 const connectDB = require("./configs/db.js");
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 })
 
 app.use("/api/user", userRoutes);
+app.use("/api/user", sellerRoutes);
 
 app.listen(PORT, () => {
     console.log("app is listening to the port 8080");
