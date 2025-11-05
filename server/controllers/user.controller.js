@@ -72,4 +72,34 @@ const loginUser = async (req, res) => {
     }
 }
 
-module.exports = { registerUser, loginUser }
+// check auth: /api/user/is-auth
+const isAuth = async(req, res) => {
+    try {
+        const userId = req.user.id;
+        const user = await User.findById( userId ).select("-password");
+        
+        return res.json({success: true, user});
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message});
+    }
+}
+
+// logout user : /api/user/logout
+const logout = async (req, res) => {
+    try {
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+
+        })
+
+        return res.json({success: true, message: "Logged Out"});
+    } catch (error) {
+        console.log(error.message);
+        res.json({success: false, message: error.message});
+    }
+}
+
+module.exports = { registerUser, loginUser, isAuth, logout }
