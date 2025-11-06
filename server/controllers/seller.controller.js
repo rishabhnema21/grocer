@@ -13,7 +13,7 @@ const sellerLogin = async (req, res) => {
         expiresIn: "7d",
       });
 
-      res.cookie("token", token, {
+      res.cookie("sellerToken", token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
@@ -22,7 +22,7 @@ const sellerLogin = async (req, res) => {
 
       return res.json({ success: true, message: "Logged In" });
     } else {
-      return res.json({ success: true, message: "Invalid Credentials" });
+      return res.json({ success: false, message: "Invalid Credentials" });
     }
   } catch (error) {
     console.log(error.message);
