@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Search, ShoppingCart, Menu, X } from "lucide-react";
 import { useAppContext } from "../context/AppContext";
+import AuthModal from "./AuthModal";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -11,7 +12,7 @@ const navLinks = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const { user, setUser, setShowUserLogin, navigate } = useAppContext();
+  const { user, setUser, setShowUserLogin, setAuthMode, navigate } = useAppContext();
 
   const logout = async () => {
     setUser(null);
@@ -66,7 +67,8 @@ const Navbar = () => {
             <button
               onClick={() => {
                 setOpen(false);
-                setShowUserLogin(true);
+                 setAuthMode("login");
+                 setShowUserLogin(true);
               }}
               className="bg-[#2B6E4E] hover:bg-[#1b5c3d] transition-all duration-200 ease-in cursor-pointer px-8 py-2 text-sm text-white rounded-xl"
             >

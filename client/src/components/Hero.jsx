@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router";
 
 const Hero = () => {
   return (
@@ -31,8 +32,13 @@ const Hero = () => {
           them all conveniently on our website
         </p>
 
-        <button className="bg-[#FF5F2D] hover:bg-[#cd3202] transition-all duration-200 ease-in border border-white px-6 py-2 mt-6 rounded-sm cursor-pointer">
-          Shop Now
+        <button className="mt-6">
+          <Link
+            to={"/products"}
+            className="bg-[#FF5F2D] hover:bg-[#cd3202] transition-all duration-200 ease-in border border-white px-6 py-2 rounded-sm cursor-pointer"
+          >
+            Shop Now
+          </Link>
         </button>
       </div>
 

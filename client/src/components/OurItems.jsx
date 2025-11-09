@@ -2,6 +2,10 @@ import React from 'react'
 import ItemCard from './ItemCard'
 import Caraousel from './Caraousel'
 
+const items = [
+  {}
+]
+
 const OurItems = () => {
   return (
     <div className='mt-14'>

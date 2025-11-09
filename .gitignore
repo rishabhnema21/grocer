@@ -1,0 +1,125 @@
+# ------------------------
+# Node / Express Backend
+# ------------------------
+
+# Node modules
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Cache
+.cache/
+.tmp/
+temp/
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Build output
+dist/
+build/
+out/
+
+# Dependency directories
+jspm_packages/
+
+# TypeScript
+*.tsbuildinfo
+
+# PM2 process logs
+pids/
+pm2-logs/
+
+# VSCode local settings
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# ------------------------
+# React Frontend (client/)
+# ------------------------
+
+# Dependencies
+client/node_modules/
+
+# Build output
+client/build/
+client/dist/
+
+# Local environment variables
+client/.env
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+
+# Cache and temporary files
+client/.cache/
+client/.parcel-cache/
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+
+# Testing
+client/coverage/
+client/jest-html-reporters-*.html
+
+# Editor directories and files
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ------------------------
+# General
+# ------------------------
+
+# Backup files
+*.bak
+*.old
+*.orig
+*.tmp
+
+# Local database dumps
+dump.rdb
+*.sqlite
+*.db
+
+# Docker
+docker-compose.override.yml
+.docker/
+*.tar
+
+# Environment and secrets
+.secret
+*.key
+*.pem
+
+# Optional lock files (if using multiple managers)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
