@@ -6,6 +6,7 @@ import Footer from './components/Footer'
 import { Toaster } from 'react-hot-toast';
 import Catalog from './pages/Catalog'
 import AuthModal from './components/AuthModal'
+import Cart from './pages/Cart'
 
 const App = () => {
 
@@ -21,7 +22,7 @@ const App = () => {
           <Route path='/home' element={<Home />} />
           <Route path='/' element={<Home />} />
           <Route path='/catalog' element={<Catalog />}/>
-          {/* <Route path='/login' element={<AuthModal />}/> */}
+          <Route path='/cart' element={<Cart />}/>
         </Routes>
       </div>
       <Footer />
