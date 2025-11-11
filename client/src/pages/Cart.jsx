@@ -4,7 +4,7 @@ import { IoIosAddCircleOutline } from "react-icons/io";
 const Cart = () => {
   return (
     <main>
-        <div className='mt-8 min-h-[75vh] w-[100%] flex'>
+        <div className='mt-8 min-h-[75vh] w-[100%] flex flex-col md:flex-row justify-center items-center gap-14 md:gap-0'>
             <div className='w-2/3'>
                 <h1 className='text-2xl md:text-3xl lg:text-4xl font-medium text-gray-800'>Shopping Cart <span className='text-sm text-[#2B6E4E]'>3 items</span></h1>
 
@@ -14,9 +14,16 @@ const Cart = () => {
                     <span>Subtotal</span>
                     <span>X</span>
                 </div>  
+
+                <div className='mt-7 flex flex-col w-full justify-center items-center h-[60vh]'>
+                    <img className='h-[50vh] rounded-xl' src="/noProduct.jpg" alt="" />
+                    <h1 className='text-2xl md:text-4xl mt-4 font-semibold'>No Products Found</h1>
+                    <h4 className='text-gray-600'>Go Start Shopping Now</h4>
+                </div>
+
             </div>
 
-            <div className='w-1/3 bg-[#e0dede] rounded-2xl p-6'>
+            <div className='w-full sm:w-3/4 md:w-1/3 bg-[#f1f1f1] rounded-2xl p-6 shadow-2xl'>
                 <h2 className='text-[#111] text-3xl mb-4 font-medium'>Summary</h2>
                 <hr className='text-[#111]'/>
 
@@ -43,14 +50,16 @@ const Cart = () => {
                 <div>
                     <div className='flex justify-between mt-5 items-center'>
                         <h2 className='text-[#111] font-medium text-xl'>Address</h2>
-                        <IoIosAddCircleOutline  className='text-2xl text-[#111]'/>
+                        <IoIosAddCircleOutline
+                          
+                          className='cursor-pointer text-2xl text-[#111]'/>
                     </div>
                     <p className='text-[#111] italic'>No Address Added yet...</p>
                 </div>
 
                 <div className='mt-5 text-[#111] font-medium text-xl'>
                     <label for="payment">Choose Payment Method</label>
-                    <select className='bg-white outline-none w-2/3 mt-2' name="payment" id="payment">
+                    <select className='bg-white cursor-pointer outline-none w-2/3 mt-2' name="payment" id="payment">
                         <option value="Cash On Delivery">Cash on Delivery</option>
                         <option value="UPI">UPI</option>
                         <option value="Net Banking">Net Banking</option>

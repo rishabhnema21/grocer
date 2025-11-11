@@ -7,6 +7,7 @@ import { Toaster } from 'react-hot-toast';
 import Catalog from './pages/Catalog'
 import AuthModal from './components/AuthModal'
 import Cart from './pages/Cart'
+import SellerLogin from './pages/SellerLogin'
 
 const App = () => {
 
@@ -23,9 +24,10 @@ const App = () => {
           <Route path='/' element={<Home />} />
           <Route path='/catalog' element={<Catalog />}/>
           <Route path='/cart' element={<Cart />}/>
+          <Route path='/seller/login' element={<SellerLogin />}/>
         </Routes>
       </div>
-      <Footer />
+      {isSellerPath ? null : <Footer />}
     </div>
   )
 }

@@ -8,7 +8,7 @@ const ItemCard = () => {
   const { addToCart, removeFromCart, cartItems, navigate } = useAppContext();
   
   return (
-    <div className="text-center hover:scale-105 relative bg-white shadow-[7px_5px_20px_1px_rgba(0,_0,_0,_0.1)] rounded-xl py-8 transition-all duration-200 ease-in flex flex-col">
+    <div className="text-center hover:scale-105 relative bg-white shadow-[7px_5px_20px_1px_rgba(0,_0,_0,_0.1)] w-[40vw] md:w-auto rounded-xl py-8 transition-all duration-200 ease-in flex flex-col">
       <div className="add-to-cart absolute top-3 right-3">
         <button className="bg-gray-200 px-2 py-2 rounded-full">
           <ShoppingCart color="#3e9392" size={20} />
@@ -16,7 +16,7 @@ const ItemCard = () => {
       </div>
 
       <div className="flex flex-col justify-center items-center">
-        <img src="/vegetable.png" className="hover:scale-105 h-45 transition-all duration-200 ease-in" alt="" />
+        <img src="/vegetable.png" className="hover:scale-105 w-auto h-45 transition-all duration-200 ease-in" alt="" />
         <div className="flex flex-col justify-center items-center">
           <h1 className="text-2xl font-semibold">Garam Masala</h1>
           <p className="text-sm text-gray-600 tracking-wide">

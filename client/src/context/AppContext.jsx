@@ -1,6 +1,10 @@
 import { createContext, useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = import.meta.env.SERVER_URL;
 
 export const AppContext = createContext();
 
@@ -13,6 +17,8 @@ export const AppContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState({});
   const [authMode, setAuthMode] = useState("login");
+
+  const [searchQuery, setSearchQuery] = useState({});
 
   const fetchProducts = async () => {
     setProducts();
@@ -61,7 +67,9 @@ export const AppContextProvider = ({ children }) => {
     updateCartItem,
     removeFromCart,
     authMode,
-    setAuthMode
+    setAuthMode,
+    searchQuery,
+    setSearchQuery,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
