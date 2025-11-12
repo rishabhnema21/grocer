@@ -14,7 +14,7 @@ const connectCloudinary = require("./configs/cloudinary.js");
 dotenv.config();
 
 const PORT = process.env.PORT || 8080;
-const allowedOrigins = ["https://localhost:5174"]
+const allowedOrigins = ["http://localhost:5173"]
 
 connectDB();
 connectCloudinary();
