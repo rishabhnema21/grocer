@@ -8,13 +8,17 @@ import Catalog from './pages/Catalog'
 import AuthModal from './components/AuthModal'
 import Cart from './pages/Cart'
 import SellerLogin from './pages/SellerLogin'
+import Product from './pages/Product'
+import Admin from './pages/Admin'
 
 const App = () => {
 
   const isSellerPath = useLocation().pathname.includes("seller");
 
   return (
-    <div className='min-h-screen bg-[#FCFBFC] overflow-hidden py-3 px-5 md:py-6 md:px-26'>
+    <div className={`min-h-screen bg-[#FCFBFC] overflow-hidden ${
+    isSellerPath ? 'px-0 py-0' : 'px-5 md:px-26 py-3 md:py-6'
+  }`}>
       {isSellerPath ? null : <Navbar/>}
       <AuthModal/>
       <Toaster />
@@ -25,6 +29,8 @@ const App = () => {
           <Route path='/catalog' element={<Catalog />}/>
           <Route path='/cart' element={<Cart />}/>
           <Route path='/seller/login' element={<SellerLogin />}/>
+          <Route path='/products/fruits/:id' element={<Product />} />
+          <Route path='/seller' element={<Admin />} />
         </Routes>
       </div>
       {isSellerPath ? null : <Footer />}

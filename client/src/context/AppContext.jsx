@@ -1,10 +1,10 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = import.meta.env.SERVER_URL;
+axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 
 export const AppContext = createContext();
 
@@ -21,8 +21,17 @@ export const AppContextProvider = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState({});
 
   const fetchProducts = async () => {
-    setProducts();
+    try {
+      const { data } = await axios.get("/api/product/list", {withCredentials: true});
+      setProducts(data.products);
+    } catch(error) {
+      console.log("Error fetching products", error);
+    }
   };
+
+  useEffect(() => {
+    fetchProducts();
+  }, [])
 
   const addToCart = () => {
     let cartData = structuredClone(cartItems);
@@ -70,6 +79,8 @@ export const AppContextProvider = ({ children }) => {
     setAuthMode,
     searchQuery,
     setSearchQuery,
+    products,
+    axios
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
