@@ -18,7 +18,7 @@ export const AppContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState({});
   const [authMode, setAuthMode] = useState("login");
 
-  const [searchQuery, setSearchQuery] = useState({});
+  const [searchQuery, setSearchQuery] = useState("");
   const [category, setCategory] = useState({});
 
   const fetchProducts = async () => {

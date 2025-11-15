@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Search, ShoppingCart, Menu, X } from "lucide-react";
 import { useAppContext } from "../context/AppContext";
@@ -12,7 +12,22 @@ const navLinks = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const { user, setUser, setShowUserLogin, setAuthMode, navigate } = useAppContext();
+  const { user, setUser, setShowUserLogin, setAuthMode, navigate, searchQuery, setSearchQuery } = useAppContext();
+  const [typedValue, setTypedValue] = useState("");
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setSearchQuery(typedValue);
+    }, 350);
+
+    return () => clearTimeout(handler);
+  }, [typedValue])
+
+  useEffect(() => {
+    if (searchQuery.length > 0) {
+      navigate("/catalog");
+    }
+  }, [searchQuery])
 
   const logout = async () => {
     setUser(null);
@@ -54,13 +69,14 @@ const Navbar = () => {
           <Search className="absolute left-3 h-5 top-1/2 transform -translate-y-1/2 text-sm text-gray-400" />
           <input
             type="text"
+            onChange={(e) => setTypedValue(e.target.value)}
             placeholder="Search"
-            className="pl-10 py-1 w-full border text-sm rounded-3xl border-[#9F9F9F] focus:outline-none"
+            className="pl-10 py-2 w-full border text-sm rounded-xl border-[#9F9F9F] focus:outline-none"
           />
         </div>
         <div onClick={() => navigate("/cart")} className="h-10 w-10 relative hover:bg-[#d18f01] transition-all cursor-pointer duration-200 ease-in-out rounded-full bg-[#e59f06]">
           <ShoppingCart className="absolute transform -translate-y-1/2 top-1/2 h-5 left-2 text-white" />
-          <div className="h-5 w-5 bg-red-500 absolute -right-2 text-sm -top-2 text-center flex justify-center items-center text-white rounded-full">3</div>
+          <div className="h-5 w-5 bg-[#184a32] absolute -right-2 text-sm -top-2 text-center flex justify-center items-center text-white rounded-full">3</div>
         </div>
         <div>
           {!user ? (
