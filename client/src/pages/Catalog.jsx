@@ -16,7 +16,7 @@ const Catalog = () => {
 
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-14 gap-6'>
             {products.map((product, key) => (
-              <ItemCard key={product._id} name={product.name} description={product.description} price={product.price} offerPrice={product.offerPrice} images={product.images} />
+              <ItemCard key={product._id} id={product._id} name={product.name} description={product.description} price={product.price} offerPrice={product.offerPrice} images={product.images} />
             ))}
         </div>
     </div>
