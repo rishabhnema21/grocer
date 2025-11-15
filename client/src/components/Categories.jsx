@@ -9,6 +9,11 @@ const categories = [
 ]
 
 const Categories = () => {
+
+  const handleClick = async () => {
+    const { data } = await axios.get("/api/products/")
+  }
+
   return (
     <div className='mt-10 text-center'>
         <h1 className='text-4xl font-bold'>Top Catagories</h1>

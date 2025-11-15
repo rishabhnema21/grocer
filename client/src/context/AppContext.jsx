@@ -19,9 +19,11 @@ export const AppContextProvider = ({ children }) => {
   const [authMode, setAuthMode] = useState("login");
 
   const [searchQuery, setSearchQuery] = useState({});
+  const [category, setCategory] = useState({});
 
   const fetchProducts = async () => {
     try {
+      console.log("FETCH RUN");
       const { data } = await axios.get("/api/product/list", {withCredentials: true});
       setProducts(data.products);
     } catch(error) {
@@ -29,11 +31,21 @@ export const AppContextProvider = ({ children }) => {
     }
   };
 
+  // const fetchProductsByCategory = async () => {
+  //   try {
+  //     const { data } = await axios.get(`/api/product/list?category=${category}`, {withCredentials: true});
+  //     setCategory(data.products);
+      
+  //   } catch(error) {
+
+  //   }
+  // }
+
   useEffect(() => {
     fetchProducts();
   }, [])
 
-  const addToCart = () => {
+  const addToCart = (itemId) => {
     let cartData = structuredClone(cartItems);
     if (cartData[itemId]) {
       cartData[itemId] += 1;
@@ -45,14 +57,14 @@ export const AppContextProvider = ({ children }) => {
     toast.success("Added to Cart");
   };
 
-  const updateCartItem = () => {
+  const updateCartItem = (itemId, quantity) => {
     let cartData = structuredClone(cartItems);
     cartData[itemId] = quantity;
     setCartItems(cartData);
     toast.success("Cart Updated");
   };
 
-  const removeFromCart = () => {
+  const removeFromCart = (itemId) => {
     let cartData = structuredClone(cartItems);
     if (cartData[itemId]) {
       cartData[itemId] -= 1;
@@ -80,6 +92,8 @@ export const AppContextProvider = ({ children }) => {
     searchQuery,
     setSearchQuery,
     products,
+    setProducts,
+    fetchProducts,
     axios
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
