@@ -10,6 +10,7 @@ import Cart from './pages/Cart'
 import SellerLogin from './pages/SellerLogin'
 import Product from './pages/Product'
 import Admin from './pages/Admin'
+import ProductCategory from './pages/ProductCategory'
 
 const App = () => {
 
@@ -29,8 +30,9 @@ const App = () => {
           <Route path='/catalog' element={<Catalog />}/>
           <Route path='/cart' element={<Cart />}/>
           <Route path='/seller/login' element={<SellerLogin />}/>
-          <Route path='/products/fruits/:id' element={<Product />} />
+          {/* <Route path='/products/fruits/:id' element={<Product />} /> */}
           <Route path='/seller' element={<Admin />} />
+          <Route path='/products/:category' element={<ProductCategory />} />
         </Routes>
       </div>
       {isSellerPath ? null : <Footer />}

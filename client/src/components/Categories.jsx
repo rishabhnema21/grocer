@@ -1,9 +1,9 @@
 import React from 'react'
 import Card from './Card'
 
-const categories = [
+export const categories = [
   {name: "Fruits", label: "240 items", image: "/fruits.png", path: "fruits"},
-  {name: "Vegatables", label: "240 items", image: "/vegetable.png", path: "vegetables"},
+  {name: "Vegetables", label: "240 items", image: "/vegetable.png", path: "vegetables"},
   {name: "Dairy", label: "240 items", image: "/dairy.png", path: "dairy"},
   {name: "Instant Food", label: "240 items", image: "/maggi.png", path: "instant"},
 ]

@@ -2,13 +2,23 @@ import React, { useState } from "react";
 import { ShoppingCart, Star } from "lucide-react";
 import { useAppContext } from "../context/AppContext";
 
-const ItemCard = ({ id, description, name, price, offerPrice, images }) => {
-  const [count, setCount] = useState(0);
+const ItemCard = ({
+  id,
+  description,
+  name,
+  price,
+  offerPrice,
+  images,
+  category,
+}) => {
   const { addToCart, removeFromCart, updateCartItem, cartItems, navigate } =
     useAppContext();
 
   return (
-    <div className="relative bg-white shadow-[7px_5px_20px_1px_rgba(0,_0,_0,_0.1)] rounded-sm py-8 transition-all duration-200 ease-in flex flex-col">
+    <div
+      onClick={() => {navigate(`/products/${category.toLowerCase()}/${id}`); scrollTo(0, 0,)}}
+      className="relative cursor-pointer bg-white shadow-[7px_5px_20px_1px_rgba(0,_0,_0,_0.1)] rounded-sm py-8 transition-all duration-200 ease-in flex flex-col"
+    >
       <div className="flex flex-col justify-center items-center">
         <div className="bg-amber-100 px-2 mb-3 w-[90%] py-7 rounded-xl flex justify-center items-center">
           <img
@@ -52,7 +62,6 @@ const ItemCard = ({ id, description, name, price, offerPrice, images }) => {
                 >
                   -
                 </button>
-
 
                 <span className="bg-green-400 px-3 py-1 font-semibold rounded-sm">
                   {cartItems[id]}

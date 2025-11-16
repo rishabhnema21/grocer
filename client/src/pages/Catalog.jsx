@@ -36,6 +36,7 @@ const Catalog = () => {
             price={product.price}
             offerPrice={product.offerPrice}
             images={product.images}
+            category={product.category}
           />
         ))}
       </div>
