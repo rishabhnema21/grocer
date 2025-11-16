@@ -16,7 +16,7 @@ const ItemCard = ({
 
   return (
     <div
-      onClick={() => {navigate(`/products/${category.toLowerCase()}/${id}`); scrollTo(0, 0,)}}
+      onClick={() => {navigate(`/products/${category.toLowerCase()}/${id}`); scrollTo(0, 0)}}
       className="relative cursor-pointer bg-white shadow-[7px_5px_20px_1px_rgba(0,_0,_0,_0.1)] rounded-sm py-8 transition-all duration-200 ease-in flex flex-col"
     >
       <div className="flex flex-col justify-center items-center">
@@ -44,7 +44,7 @@ const ItemCard = ({
           <div className="add-to-cart">
             {!cartItems[id] ? (
               <button
-                onClick={() => addToCart(id)}
+                onClick={(e) => {e.stopPropagation();  addToCart(id);}}
                 className="bg-green-300 rounded-sm hover:bg-green-400 transition-all duration-200 ease-in cursor-pointer px-3 py-1"
               >
                 <ShoppingCart
@@ -57,7 +57,7 @@ const ItemCard = ({
             ) : (
               <div className="flex justify-center items-center gap-[1px]">
                 <button
-                  onClick={() => removeFromCart(id)}
+                  onClick={(e) => {e.stopPropagation(); removeFromCart(id)}}
                   className="bg-green-300 px-3 py-1 font-semibold rounded-sm cursor-pointer hover:bg-green-400"
                 >
                   -
@@ -68,7 +68,7 @@ const ItemCard = ({
                 </span>
 
                 <button
-                  onClick={() => addToCart(id)}
+                  onClick={(e) => { e.stopPropagation(); addToCart(id)}}
                   className="bg-green-300 px-3 py-1 font-semibold rounded-sm cursor-pointer hover:bg-green-400"
                 >
                   +
