@@ -20,7 +20,13 @@ const OurItems = () => {
           {items.map((item) => (
             <ItemCard
               key={item._id}
-              {...item}
+                id={item._id}
+                name={item.name}
+                description={item.description}
+                price={item.price}
+                offerPrice={item.offerPrice}
+                images={item.images}
+                category={item.category}
             />
           ))}
         </Caraousel>

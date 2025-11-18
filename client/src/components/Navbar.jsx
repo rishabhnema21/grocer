@@ -12,7 +12,7 @@ const navLinks = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const { user, setUser, setShowUserLogin, setAuthMode, navigate, searchQuery, setSearchQuery } = useAppContext();
+  const { user, setUser, setShowUserLogin, setAuthMode, navigate, searchQuery, setSearchQuery, cartCount } = useAppContext();
   const [typedValue, setTypedValue] = useState("");
 
   useEffect(() => {
@@ -76,7 +76,7 @@ const Navbar = () => {
         </div>
         <div onClick={() => navigate("/cart")} className="h-10 w-10 relative hover:bg-[#d18f01] transition-all cursor-pointer duration-200 ease-in-out rounded-full bg-[#e59f06]">
           <ShoppingCart className="absolute transform -translate-y-1/2 top-1/2 h-5 left-2 text-white" />
-          <div className="h-5 w-5 bg-[#184a32] absolute -right-2 text-sm -top-2 text-center flex justify-center items-center text-white rounded-full">3</div>
+          <div className="h-5 w-5 bg-[#184a32] absolute -right-2 text-sm -top-2 text-center flex justify-center items-center text-white rounded-full">{ cartCount }</div>
         </div>
         <div>
           {!user ? (
@@ -100,7 +100,13 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="md:hidden">
+      <div className="md:hidden flex gap-3">
+
+          <div onClick={() => navigate("/cart")} className="h-10 w-10 relative hover:bg-[#d18f01] transition-all cursor-pointer duration-200 ease-in-out ">
+          <ShoppingCart className="absolute transform -translate-y-1/2 top-1/2 h-7 left-2 text-green-950" />
+          <div className="h-4 w-4 bg-[#184a32] absolute -right-1 text-xs -top-1 text-center flex justify-center items-center text-white rounded-full">{ cartCount }</div>
+        </div>
+
         <button
           onClick={() => setOpen(!open)}
           className="bg-[#e59f06] px-2 py-2 rounded-2xl text-white"
@@ -110,8 +116,8 @@ const Navbar = () => {
       </div>
 
       {open && (
-        <div className="md:hidden absolute right-0 top-16 w-full text-center bg-[#e59f06] px-4 pb-4">
-          <nav className="flex flex-col space-y-2 py-5 text-[#fff]">
+        <div className="md:hidden absolute right-0 top-16 w-full h-[55vh] rounded-sm flex flex-col items-center justify-center text-center bg-[#e59f06] px-4 pb-4">
+          <nav className="flex flex-col space-y-2 py-5 font-medium text-[#feffe8]">
             {navLinks.map(({ name, path }) => (
               <NavLink key={name} to={path} onClick={() => setOpen(false)}>
                 {name}
@@ -131,21 +137,18 @@ const Navbar = () => {
               <input
                 type="text"
                 placeholder="Search"
-                className="pl-10 py-1 w-full border text-white rounded-3xl border-[#fff] focus:outline-none"
+                className="pl-10 py-1 w-full border text-white rounded-xl border-[#fff] focus:outline-none"
               />
             </div>
 
-            <div className="flex flex-col space-y-3 justify-evenly items-center">
-              <button className="h-10 w-12 relative rounded-2xl bg-[#fff]">
-                <ShoppingCart className="absolute transform -translate-y-1/2 top-1/2 h-5 left-2 text-[#e59f06]" />
-              </button>
+            <div className="flex flex-col space-y-2 justify-evenly items-center">
 
               {!user ? (
                 <button
                   onClick={() => {setOpen(false);
                     setShowUserLogin(true);
                   }}
-                  className="bg-[#2B6E4E] px-5 py-2 hover:bg-[#1b5c3d] transition-all duration-200 ease-in cursor-pointer text-sm text-white rounded-xl"
+                  className="bg-[#2B6E4E] w-20 px-5 py-2 hover:bg-[#1b5c3d] transition-all duration-200 ease-in cursor-pointer text-sm text-white rounded-sm"
                 >
                   Login
                 </button>

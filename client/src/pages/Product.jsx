@@ -107,7 +107,6 @@ const Product = () => {
         </div>
       </div>
 
-      {/* Related Products could be added here */}
       <div className="related-products w-full mt-[15vh] flex flex-col justify-center items-center ">
         <div>
           <h2 className="text-3xl text-green-900 font-medium">

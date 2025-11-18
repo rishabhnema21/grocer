@@ -9,12 +9,15 @@ import AuthModal from './components/AuthModal'
 import Cart from './pages/Cart'
 import SellerLogin from './pages/SellerLogin'
 import Product from './pages/Product'
-import Admin from './pages/Admin'
 import ProductCategory from './pages/ProductCategory'
+import AddAddress from './pages/AddAddress'
+import SellerLayout from './pages/seller/SellerLayout'
+import { useAppContext } from './context/AppContext'
 
 const App = () => {
 
   const isSellerPath = useLocation().pathname.includes("seller");
+  const { isSeller } = useAppContext();
 
   return (
     <div className={`min-h-screen bg-[#FCFBFC] overflow-hidden ${
@@ -29,10 +32,10 @@ const App = () => {
           <Route path='/' element={<Home />} />
           <Route path='/catalog' element={<Catalog />}/>
           <Route path='/cart' element={<Cart />}/>
-          <Route path='/seller/login' element={<SellerLogin />}/>
-          <Route path='/seller' element={<Admin />} />
+          <Route path='/seller' element={isSeller ? <SellerLayout /> : <SellerLogin />}/>
           <Route path='/products/:category/:id' element={<Product />} />
           <Route path='/products/:category' element={<ProductCategory />} />
+          <Route path='/add-address' element={<AddAddress />} />
         </Routes>
       </div>
       {isSellerPath ? null : <Footer />}

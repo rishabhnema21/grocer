@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -24,26 +24,18 @@ export const AppContextProvider = ({ children }) => {
   const fetchProducts = async () => {
     try {
       console.log("FETCH RUN");
-      const { data } = await axios.get("/api/product/list", {withCredentials: true});
+      const { data } = await axios.get("/api/product/list", {
+        withCredentials: true,
+      });
       setProducts(data.products);
-    } catch(error) {
+    } catch (error) {
       console.log("Error fetching products", error);
     }
   };
 
-  // const fetchProductsByCategory = async () => {
-  //   try {
-  //     const { data } = await axios.get(`/api/product/list?category=${category}`, {withCredentials: true});
-  //     setCategory(data.products);
-      
-  //   } catch(error) {
-
-  //   }
-  // }
-
   useEffect(() => {
     fetchProducts();
-  }, [])
+  }, []);
 
   const addToCart = (itemId) => {
     let cartData = structuredClone(cartItems);
@@ -76,6 +68,22 @@ export const AppContextProvider = ({ children }) => {
     setCartItems(cartData);
   };
 
+  const cartCount = useMemo(() => {
+    return Object.values(cartItems).reduce((sum, qty) => sum + qty, 0);
+  }, [cartItems]);
+
+  const getCartAmount = () => {
+    let totalAmount = 0;
+    for (const item in cartItems) {
+      let itemInfo = products.find((product) => product._id === item);
+      if (cartItems[item] > 0) {
+        totalAmount += itemInfo.offerPrice * cartItems[item];
+      }
+    }
+
+    return Math.floor(totalAmount * 100) / 100;
+  }
+
   const value = {
     navigate,
     user,
@@ -97,6 +105,8 @@ export const AppContextProvider = ({ children }) => {
     axios,
     cartItems,
     setCartItems,
+    cartCount,
+    getCartAmount,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
