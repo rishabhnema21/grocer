@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { loginUser, registerUser, logoutUser } from "../services/authService";
 
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
@@ -84,6 +85,26 @@ export const AppContextProvider = ({ children }) => {
     return Math.floor(totalAmount * 100) / 100;
   }
 
+  const handleUserLogin = async (email, password) => {
+    try {
+      const userData = await loginUser(email, password);
+      setUser(userData.user);
+      toast.success("Logged in!");
+    } catch {
+      toast.error(err.response?.data?.message || "Login Failed");
+    }
+  }
+
+  const handleUserRegister = async (name, email, password) => {
+    try {
+      const userData = await registerUser(name, email, password);
+      setUser(userData.user);
+      toast.success("Welcome");
+    } catch {
+      toast.error(err.response?.data?.message || "Registration failed");
+    }
+  }
+
   const value = {
     navigate,
     user,
@@ -107,6 +128,9 @@ export const AppContextProvider = ({ children }) => {
     setCartItems,
     cartCount,
     getCartAmount,
+    handleUserLogin,
+    handleUserRegister,
+    logoutUser
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

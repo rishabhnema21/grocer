@@ -3,6 +3,8 @@ import { NavLink } from "react-router-dom";
 import { Search, ShoppingCart, Menu, X } from "lucide-react";
 import { useAppContext } from "../context/AppContext";
 import AuthModal from "./AuthModal";
+import { logoutUser } from "../services/authService";
+import toast from "react-hot-toast";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -30,8 +32,17 @@ const Navbar = () => {
   }, [searchQuery])
 
   const logout = async () => {
-    setUser(null);
-    navigate("/");
+    try {
+      await logoutUser();
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      setUser(null);
+      toast.success("Logged out");
+      navigate("/");
+    } catch (err) {
+      console.error("Logout failed:", err);
+      toast.error("Logout failed. Try again.");
+    }
   }
 
   return (
@@ -57,7 +68,7 @@ const Navbar = () => {
           ))}
 
           {user && (
-            <NavLink key={orders} to="/orders">
+            <NavLink key="orders" to="/orders">
               My Orders
             </NavLink>
           )}
@@ -125,7 +136,7 @@ const Navbar = () => {
             ))}
 
             {user && (
-              <NavLink key={orders} to="/orders" onClick={() => setOpen(false)}>
+              <NavLink key="orders" to="/orders" onClick={() => setOpen(false)}>
                 My Orders
               </NavLink>
             )}
@@ -154,8 +165,8 @@ const Navbar = () => {
                 </button>
               ) : (
                 <button
-                  onClick={() => {setOpen(false);
-                    navigate("/")
+                  onClick={async () => {setOpen(false);
+                    await logout();
                   }}
                   className="bg-[#2B6E4E] px-5 py-2 hover:bg-[#1b5c3d] transition-all duration-200 ease-in cursor-pointer text-sm text-white rounded-xl"
                 >

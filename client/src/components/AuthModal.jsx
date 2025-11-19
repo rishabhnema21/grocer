@@ -34,6 +34,10 @@ const AuthModal = () => {
     authMode,
     setAuthMode,
     setUser,
+    handleUserLogin,
+    handleUserRegister,
+    logoutUser,
+    navigate
   } = useAppContext();
 
   const [formData, setFormData] = useState({
@@ -46,7 +50,7 @@ const AuthModal = () => {
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (authMode === "register" && formData.password !== formData.confirmPassword) {
@@ -54,17 +58,18 @@ const AuthModal = () => {
       return;
     }
 
-    if (authMode === "login") {
-      // simulate login success
-      setUser({ name: "User", email: formData.email });
-      toast.success("Logged in successfully!");
+    try {
+      if (authMode === "login") {
+      await handleUserLogin(formData.email, formData.password);
     } else {
-      // simulate register success
-      setUser({ name: formData.name, email: formData.email });
-      toast.success("Account created!");
+      await handleUserRegister(formData.name, formData.email, formData.password);
     }
-
+    navigate("/");
     setShowUserLogin(false);
+    setFormData({ name: "", email: "", password: "", confirmPassword: "" });
+    } catch(err) {
+      console.log(err);
+    }
   };
 
   return (
