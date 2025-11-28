@@ -38,6 +38,7 @@ export const AppContextProvider = ({ children }) => {
     fetchProducts();
   }, []);
 
+
   const addToCart = (itemId) => {
     let cartData = structuredClone(cartItems);
     if (cartData[itemId]) {
@@ -83,27 +84,85 @@ export const AppContextProvider = ({ children }) => {
     }
 
     return Math.floor(totalAmount * 100) / 100;
-  }
+  };
 
-  const handleUserLogin = async (email, password) => {
-    try {
-      const userData = await loginUser(email, password);
-      setUser(userData.user);
-      toast.success("Logged in!");
-    } catch {
-      toast.error(err.response?.data?.message || "Login Failed");
+const handleUserLogin = async (email, password) => {
+  try {
+    const { user } = await loginUser(email, password);
+    setUser(user);
+
+    const restoredCart = {};
+    if (Array.isArray(user.cartItems)) {
+      user.cartItems.forEach(item => {
+        restoredCart[item.productId] = item.quantity;
+      });
     }
+
+    setCartItems(restoredCart);
+
+    toast.success("Logged in!");
+  } catch (err) {
+    toast.error(err.response?.data?.message || "Login Failed");
   }
+};
+
+
 
   const handleUserRegister = async (name, email, password) => {
     try {
       const userData = await registerUser(name, email, password);
       setUser(userData.user);
       toast.success("Welcome");
-    } catch {
+    } catch (err) {
       toast.error(err.response?.data?.message || "Registration failed");
     }
-  }
+  };
+
+
+
+useEffect(() => {
+  if (!user) return; // prevent overwriting DB when not logged in
+
+  const saveCartToDB = async () => {
+    try {
+      await axios.post("/api/cart/update", { cartItems });
+    } catch (err) {
+      console.log("Failed to sync cart", err);
+    }
+  };
+
+  saveCartToDB();
+}, [cartItems, user]);
+
+useEffect(() => {
+  const restoreSession = async () => {
+    try {
+      const res = await axios.get("/api/user/me", res.data.user);
+      console.log("ME Response: ")
+
+      setUser(res.data.user);
+
+      const restoredCart = {};
+      
+      if (Array.isArray(res.data.user.cartItems)) {
+        res.data.user.cartItems.forEach(item => {
+          restoredCart[item.productId] = item.quantity;
+        });
+      }
+
+      setCartItems(restoredCart);
+
+    } catch (err) {
+      setUser(null);
+      setCartItems({});
+    }
+  };
+
+  restoreSession();
+}, []);
+
+
+
 
   const value = {
     navigate,
@@ -130,7 +189,7 @@ export const AppContextProvider = ({ children }) => {
     getCartAmount,
     handleUserLogin,
     handleUserRegister,
-    logoutUser
+    logoutUser,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };

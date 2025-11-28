@@ -14,7 +14,7 @@ const navLinks = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-  const { user, setUser, setShowUserLogin, setAuthMode, navigate, searchQuery, setSearchQuery, cartCount } = useAppContext();
+  const { user, setUser, setCartItems, setShowUserLogin, setAuthMode, navigate, searchQuery, setSearchQuery, cartCount } = useAppContext();
   const [typedValue, setTypedValue] = useState("");
 
   useEffect(() => {
@@ -34,9 +34,8 @@ const Navbar = () => {
   const logout = async () => {
     try {
       await logoutUser();
-      localStorage.removeItem("user");
-      localStorage.removeItem("token");
       setUser(null);
+      setCartItems({});
       toast.success("Logged out");
       navigate("/");
     } catch (err) {
@@ -51,7 +50,7 @@ const Navbar = () => {
         {/* Logo */}
         <div>
           <img
-            src="/grocerLogo.png"
+            src="/grocerLogo.webp"
             alt="grocer logo"
             className="h-12 md:h-16"
           />

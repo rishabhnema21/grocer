@@ -25,9 +25,9 @@ export default function Caraousel({ children }) {
     <div className="glide-04 relative w-full">
       {/* Slides */}
       <div className="overflow-hidden" data-glide-el="track">
-        <ul className="flex relative w-full overflow-hidden py-6 gap-2">
+        <ul className="flex relative w-full overflow-hidden py-6 glide__slides">
           {React.Children.map(children, (child, index) => (
-            <li key={index} className="glide__slide">
+            <li key={index} className="glide__slide flex-shrink-0">
               {child}
             </li>
           ))}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ShoppingCart, Star } from "lucide-react";
 import { useAppContext } from "../context/AppContext";
+import { optimizeImage } from "../utils/optimizeImage";
 
 const ItemCard = ({
   id,
@@ -14,17 +15,33 @@ const ItemCard = ({
   const { addToCart, removeFromCart, updateCartItem, cartItems, navigate } =
     useAppContext();
 
+    const rawImg = Array.isArray(images) ? images[0] : images;
+
+  const optimized = optimizeImage(
+    rawImg,
+    500
+  );
+
+  const [loading, setLoading] = useState(false);
+
   return (
     <div
-      onClick={() => {navigate(`/products/${category.toLowerCase()}/${id}`); scrollTo(0, 0)}}
+      onClick={() => {
+        navigate(`/products/${category.toLowerCase()}/${id}`);
+        scrollTo(0, 0);
+      }}
       className="relative cursor-pointer bg-white shadow-[7px_5px_20px_1px_rgba(0,_0,_0,_0.1)] rounded-sm py-8 transition-all duration-200 ease-in flex flex-col"
     >
       <div className="flex flex-col justify-center items-center">
         <div className="bg-amber-100 px-2 mb-3 w-[90%] py-7 rounded-xl flex justify-center items-center">
           <img
-            src={Array.isArray(images[0]) ? images[0][0] : images[0]}
-            className="hover:scale-105 w-auto h-45 transition-all duration-200 ease-in"
-            alt=""
+            src={optimized}
+            loading="lazy"
+            onLoad={() => setLoading(true)}
+            className={`transition-all duration-300 object-contain w-auto h-45 ${
+              loading ? "opacity-100 scale-100" : "opacity-0 scale-95"
+            }`}
+            alt={name}
           />
         </div>
         <div className="w-full px-4 mt-3 flex justify-between items-end">
@@ -44,7 +61,10 @@ const ItemCard = ({
           <div className="add-to-cart">
             {!cartItems[id] ? (
               <button
-                onClick={(e) => {e.stopPropagation();  addToCart(id);}}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  addToCart(id);
+                }}
                 className="bg-green-300 rounded-sm hover:bg-green-400 transition-all duration-200 ease-in cursor-pointer px-3 py-1"
               >
                 <ShoppingCart
@@ -57,7 +77,10 @@ const ItemCard = ({
             ) : (
               <div className="flex justify-center items-center gap-[1px]">
                 <button
-                  onClick={(e) => {e.stopPropagation(); removeFromCart(id)}}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeFromCart(id);
+                  }}
                   className="bg-green-300 px-3 py-1 font-semibold rounded-sm cursor-pointer hover:bg-green-400"
                 >
                   -
@@ -68,7 +91,10 @@ const ItemCard = ({
                 </span>
 
                 <button
-                  onClick={(e) => { e.stopPropagation(); addToCart(id)}}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    addToCart(id);
+                  }}
                   className="bg-green-300 px-3 py-1 font-semibold rounded-sm cursor-pointer hover:bg-green-400"
                 >
                   +

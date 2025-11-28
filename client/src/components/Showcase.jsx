@@ -4,7 +4,7 @@ const Showcase = () => {
   return (
     <div className="mt-10 py-8 md:py-16 flex flex-col-reverse md:flex-row justify-evenly items-center bg-gradient-to-r from-[#f4f4f4] via-[#F7F7F7] to-[#e7e7e7] rounded-2xl">
       <div className="">
-        <img src="/groceryBag.png" className="h-[40vh] md:h-[65vh]" alt="" />
+        <img src="/groceryBag.webp" className="h-[40vh] md:h-[65vh]" alt="" />
       </div>
 
       <div className="mx-4 md:mx-0 md:w-1/2">

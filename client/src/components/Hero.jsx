@@ -44,7 +44,7 @@ const Hero = () => {
 
       <div>
         <div>
-          <img className="w-[18rem] md:w-[33rem]" src="/heroImg.png" alt="" />
+          <img className="w-[18rem] md:w-[33rem]" src="/heroImg.webp" alt="" />
         </div>
       </div>
 

@@ -28,7 +28,15 @@ const addProduct = async (req, res) => {
 // get product : /api/product/list
 const productList = async (req, res) => {
     try {
-        const products = await Product.find({});
+        const { search, category } = req.query;
+        let filter = {};
+
+        if (category) filter.category = category;
+        if (search) {
+            filter.name = { $regex: "search", $options: "i" };
+        }
+
+        const products = await Product.find(filter);
         res.json({success: true, products})
     } catch (error) {
         console.log(error.message);
