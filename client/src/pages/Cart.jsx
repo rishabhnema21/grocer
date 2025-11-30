@@ -11,6 +11,7 @@ const Cart = () => {
     removeFromCart,
     cartCount,
     getCartAmount,
+    axios,
   } = useAppContext();
   const [cartArray, setCartArray] = useState([]);
   const [address, setAddress] = useState([]);
@@ -28,9 +29,28 @@ const Cart = () => {
     setCartArray(temp);
   };
 
+  const fetchAddresses = async () => {
+    try {
+      const res = await axios.get("/api/address/all");
+      if (res.data.success) {
+        setAddress(res.data.address);
+        // Set the first address as default if available
+        if (res.data.address.length > 0 && !selectedAddress) {
+          setSelectedAddress(res.data.address[0]);
+        }
+      }
+    } catch (error) {
+      console.log("Error fetching addresses:", error);
+    }
+  };
+
   const placeOrder = async () => {
-    
-  }
+    if (!selectedAddress) {
+      alert("Please select a delivery address");
+      return;
+    }
+    // place order ka logic yahaa likhna hai
+  };
 
   const amount = getCartAmount();
 
@@ -39,6 +59,10 @@ const Cart = () => {
       getCartProduct();
     }
   }, [products, cartItems]);
+
+  useEffect(() => {
+    fetchAddresses();
+  }, []);
 
   return (
     <main>
@@ -196,18 +220,23 @@ const Cart = () => {
                 Change
               </button>
               {showAddress && (
-                <div className="absolute top-9 py-1 bg-[#e7e8e8] border border-gray-300 rounded-xl text-sm w-full">
-                  {address.map((ad, index) => (
-                    <p
-                      onClick={() => {
-                        setSelectedAddress(ad);
-                        setShowAddress(false);
-                      }}
-                      className="text-gray-500 p-2 hover:bg-[#cdcece]"
-                    >
-                      {ad.street}, {ad.city}, {ad.state}, {ad.country}
-                    </p>
-                  ))}
+                <div className="absolute top-9 py-1 bg-[#e7e8e8] border border-gray-300 rounded-xl text-sm w-full z-10">
+                  {address.length > 0 ? (
+                    address.map((ad, index) => (
+                      <p
+                        key={ad._id || index}
+                        onClick={() => {
+                          setSelectedAddress(ad);
+                          setShowAddress(false);
+                        }}
+                        className="text-gray-500 p-2 hover:bg-[#cdcece] cursor-pointer"
+                      >
+                        {ad.street}, {ad.city}, {ad.state}, {ad.country}
+                      </p>
+                    ))
+                  ) : (
+                    <p className="text-gray-500 p-2 text-center">No addresses found</p>
+                  )}
                   <p
                     onClick={() => navigate("/add-address")}
                     className="text-green-900 font-medium tracking-wide text-center cursor-pointer p-2 hover:bg-indigo-500/10"
