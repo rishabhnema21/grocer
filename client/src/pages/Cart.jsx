@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { IoIosAddCircleOutline } from "react-icons/io";
 import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 
 const Cart = () => {
   const {
@@ -16,6 +17,7 @@ const Cart = () => {
   const [cartArray, setCartArray] = useState([]);
   const [address, setAddress] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [placedOrder, setPlacedOrder] = useState(false);
 
   const [showAddress, setShowAddress] = useState(false);
   const [paymentOption, setPaymentOption] = useState("Cash On Delivery");
@@ -49,7 +51,38 @@ const Cart = () => {
       alert("Please select a delivery address");
       return;
     }
+    if (cartArray.length === 0) {
+      toast.error("Cart is Empty");
+      return;
+    }
+    if (paymentOption != "Cash On Delivery") {
+      toast.error("Online Payments are not implemented yet! Please choose Cash on Delivery");
+      return;
+    }
     // place order ka logic yahaa likhna hai
+    try {
+      const orderData = {
+      items: cartArray.map(item => ({
+        productId: item._id,
+        quantity: item.quantity,
+        price: item.offerPrice
+      })),
+      amount: amount + (amount * 2) / 100,
+      addressId: selectedAddress._id,
+      paymentMethod: paymentOption
+    }
+
+    const res = await axios.post("/api/order/cod", orderData);
+    if (res.data.success) {
+      setPlacedOrder(true);
+      toast.success("Order Placed");
+      navigate("/orders");
+    }
+    } catch(err) {
+      console.log("order placing error : ", err);
+      toast.error("Something went wrong!");
+    }
+    
   };
 
   const amount = getCartAmount();

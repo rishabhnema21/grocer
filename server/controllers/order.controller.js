@@ -6,9 +6,13 @@ const Product = require("../models/product");
 const placeOrderCOD = async (req, res) => {
   try {
     const userId = req.user.id;
-    const { items, addressId } = req.user.id;
-    if (addressId || items.length) {
-      return res.json({ success: false, message: "Invalid Data" });
+    const { items, addressId } = req.body;
+    if (!items || items.length === 0) {
+      return res.json({ success: false, message: "No items provided" });
+    }
+
+    if (!addressId) {
+      return res.json({ success: false, message: "Address ID is required" });
     }
 
     // calculate amount
