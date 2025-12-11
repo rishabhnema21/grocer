@@ -55,11 +55,12 @@ const Cart = () => {
       toast.error("Cart is Empty");
       return;
     }
-    if (paymentOption != "Cash On Delivery") {
-      toast.error("Online Payments are not implemented yet! Please choose Cash on Delivery");
-      return;
-    }
-    // place order ka logic yahaa likhna hai
+    // if (paymentOption != "Cash On Delivery") {
+    //   toast.error("Online Payments are not implemented yet! Please choose Cash on Delivery");
+    //   return;
+    // }
+    // place order ka logic yahaa likhna hai CASH ON DELIVERY KE LIYE
+    const totalAmount = amount + (amount * 2) / 100;
     try {
       const orderData = {
       items: cartArray.map(item => ({
@@ -67,17 +68,50 @@ const Cart = () => {
         quantity: item.quantity,
         price: item.offerPrice
       })),
-      amount: amount + (amount * 2) / 100,
+      amount: totalAmount,
       addressId: selectedAddress._id,
       paymentMethod: paymentOption
     }
 
-    const res = await axios.post("/api/order/cod", orderData);
-    if (res.data.success) {
-      setPlacedOrder(true);
-      toast.success("Order Placed");
-      navigate("/orders");
+    if (paymentOption == "Cash On Delivery") {
+        const res = await axios.post("/api/order/cod", orderData);
+        if (res.data.success) {
+        setPlacedOrder(true);
+        toast.success("Order Placed");
+        navigate("/orders");
+      }
+      return;
+    };
+
+    // RAZORPAY FUNCTION TO PLACE ORDER
+    const res = await axios.post("api/payment/create-order", orderData);
+    if (!res.data.success) return toast.error("Order Creation Failed");
+
+    const { razorpayOrderId, amount } = res.data;
+
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_API_KEY,
+      amount: amount*100,
+      currency: "INR",
+      name: "Grocero",
+      description: "Order Payment",
+      order_id: razorpayOrderId,
+
+      handler: async function (response) {
+        const verifyRes = await axios.post("/api/payment/verify", {...response, items: orderData.items, addressId: selectedAddress._id});
+
+        if (verifyRes.data.success) {
+          toast.success("Payment Successful");
+          navigate("/orders");
+        } else {
+          toast.error("Payment Verification Failed");
+        }
+      }
     }
+
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+    
     } catch(err) {
       console.log("order placing error : ", err);
       toast.error("Something went wrong!");
