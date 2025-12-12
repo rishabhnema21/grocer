@@ -1,6 +1,7 @@
 const AddProduct = () => {
     return (
-        <div className="py-10 flex flex-col justify-between bg-white">
+        <div className="py-10 w-full flex flex-col justify-between bg-white">
+            <h2 className="md:px-10 px-4 font-semibold text-2xl space-y-5 max-w-lg">Add New Item </h2>
             <form className="md:p-10 p-4 space-y-5 max-w-lg">
                 <div>
                     <p className="text-base font-medium">Product Image</p>
@@ -25,7 +26,7 @@ const AddProduct = () => {
                     <label className="text-base font-medium" htmlFor="category">Category</label>
                     <select id="category" className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40">
                         <option value="">Select Category</option>
-                        {[{ name: 'Electronics' }, { name: 'Clothing' }, { name: 'Accessories' }].map((item, index) => (
+                        {[{ name: 'Vegetables' }, { name: 'Fruits' }, { name: 'Dairy' }, { name: 'Instant Food' }].map((item, index) => (
                             <option key={index} value={item.name}>{item.name}</option>
                         ))}
                     </select>
@@ -40,7 +41,7 @@ const AddProduct = () => {
                         <input id="offer-price" type="number" placeholder="0" className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40" required />
                     </div>
                 </div>
-                <button className="px-8 py-2.5 bg-indigo-500 text-white font-medium rounded">ADD</button>
+                <button className="bg-[#2B6E4E] hover:bg-[#1b5c3d] transition-all duration-200 ease-in cursor-pointer px-10 py-2 text-white rounded-sm">ADD</button>
             </form>
         </div>
     );

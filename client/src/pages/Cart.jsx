@@ -13,6 +13,7 @@ const Cart = () => {
     cartCount,
     getCartAmount,
     axios,
+    user,
   } = useAppContext();
   const [cartArray, setCartArray] = useState([]);
   const [address, setAddress] = useState([]);
@@ -98,13 +99,16 @@ const Cart = () => {
       order_id: razorpayOrderId,
 
       handler: async function (response) {
-        const verifyRes = await axios.post("/api/payment/verify", {...response, items: orderData.items, addressId: selectedAddress._id});
+        const verifyRes = await axios.post("/api/payment/verify", {...response, userId: user.id , items: orderData.items, addressId: selectedAddress._id});
+
+        // console.log(userId);
 
         if (verifyRes.data.success) {
           toast.success("Payment Successful");
           navigate("/orders");
         } else {
           toast.error("Payment Verification Failed");
+          console.log(verifyRes.data);
         }
       }
     }
