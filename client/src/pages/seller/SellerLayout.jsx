@@ -66,7 +66,7 @@ const SellerLayout = () => {
   const sidebarLinks = [
     { name: "Add Product", path: "/seller", icon: dashboardicon },
     { name: "Product List", path: "/seller/product-list", icon: overviewicon },
-    { name: "Orders", path: "/seller/orders", icon: chaticon },
+    { name: "Orders", path: "/seller/all-orders", icon: chaticon },
   ];
 
   const logout = async () => {

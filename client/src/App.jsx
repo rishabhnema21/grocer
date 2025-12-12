@@ -15,6 +15,8 @@ import SellerLayout from './pages/seller/SellerLayout'
 import { useAppContext } from './context/AppContext'
 import Orders from './pages/Orders'
 import AddProduct from './pages/seller/AddProduct'
+import SellerProductList from './pages/seller/SellerProductList'
+import SellerOrders from './pages/seller/SellerOrders'
 
 const App = () => {
 
@@ -37,6 +39,8 @@ const App = () => {
           <Route path='/seller' element={isSeller ? <SellerLayout /> : <SellerLogin />}> 
             <Route index element={<AddProduct />} />
             <Route path="add-products" element={<AddProduct />} />
+            <Route path="product-list" element={<SellerProductList />} />
+            <Route path="all-orders" element={<SellerOrders />} />
           </Route>
           <Route path='/products/:category/:id' element={<Product />} />
           <Route path='/products/:category' element={<ProductCategory />} />

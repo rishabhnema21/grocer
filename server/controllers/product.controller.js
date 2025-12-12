@@ -5,7 +5,7 @@ const cloudinary = require("cloudinary").v2;
 // add product : api/product/add
 const addProduct = async (req, res) => {
     try {
-        let productData = JSON.parse(req.body.productData);
+        let productData = req.body;
         const images = req.files;
 
         let imagesUrl = await Promise.all(
@@ -20,7 +20,7 @@ const addProduct = async (req, res) => {
         res.json({success: true, message: "Product Added"});
 
     } catch (error) {
-        console.log(error.message);
+        console.log(error);
         res.json({success: false, message: error.message});
     }
 }
