@@ -45,7 +45,7 @@ const getUserOrders = async (req, res) => {
     const userId = req.user.id;
     const orders = await Order.find({
       userId,
-      $or: [{ paymentType: "Cash on Delivery" }, { isPaid: true }],
+      // $or: [{ paymentType: "Cash on Delivery" }, { isPaid: true }],
     })
       .populate("items.productId addressId")
       .sort({ createdAt: -1 });
@@ -64,10 +64,11 @@ const getUserOrders = async (req, res) => {
 // get all orders for seller/admin: /api/order/seller
 const getAllOrders = async (req, res) => {
   try {
+    // res.set("Cache-Control", "no-store");
     const orders = await Order.find({
-      $or: [{ paymentType: "COD" }, { isPaid: true }],
+      // $or: [{ paymentType: "Cash on Delivery" }, { isPaid: true }],
     })
-      .populate("items.product address")
+      .populate("items.productId addressId")
       .sort({ createdAt: -1 });
 
     if (!orders.length) {
